@@ -1,17 +1,35 @@
 import React, { Component} from 'react';
-import Project from './Project';
-import SocialProfile from './SocialProfile';
-import Title from './Title';
 
+class App extends Component {  
+    state = { artistQuery: ''}
 
-class App extends Component {
+    updateArtistQuery = event => {
+        console.log('event.target.value', event.target.value);
+        this.setState({ artistQuery: event.target.value});
+    }
+
+    handleKeyPress = event => {
+        if (event.key === 'Enter') {
+            this.searchArtist();
+        }
+    }
+
+    searchArtist = () => {
+        console.log('this.state', this.state);
+    }
     
     render() {
         return (
             <div>
-                React App
+                <h2>Music Master</h2>
+                <input 
+                onChange={this.updateArtistQuery} 
+                onKeyPress={this.handleKeyPress}
+                placeholder='Search for an Artist'
+                />
+                <button onClick={this.searchArtist}>Search</button>
             </div>
-        )
+        );
     }
 }
 
