@@ -28343,12 +28343,11 @@ var App = /*#__PURE__*/function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "state", {
       artistQuery: '',
-      artist: null
+      artist: null,
+      tracks: []
     });
 
     _defineProperty(_assertThisInitialized(_this), "updateArtistQuery", function (event) {
-      console.log('event.target.value', event.target.value);
-
       _this.setState({
         artistQuery: event.target.value
       });
@@ -28361,15 +28360,11 @@ var App = /*#__PURE__*/function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "searchArtist", function () {
-      console.log('this.state', _this.state);
       fetch("".concat(API_ADDRESS, "/artist/").concat(_this.state.artistQuery)).then(function (response) {
         return response.json();
       }).then(function (json) {
-        console.log('json', json);
-
         if (json.artists.total > 0) {
           var artist = json.artists.items[0];
-          console.log('artist', artist);
 
           _this.setState({
             artist: artist
@@ -28378,7 +28373,9 @@ var App = /*#__PURE__*/function (_Component) {
           fetch("".concat(API_ADDRESS, "/artist/").concat(artist.id, "/top-tracks")).then(function (response) {
             return response.json();
           }).then(function (json) {
-            return console.log('track json', json);
+            return _this.setState({
+              tracks: json.tracks
+            });
           }).catch(function (error) {
             return alert(error.message);
           });
@@ -28394,6 +28391,7 @@ var App = /*#__PURE__*/function (_Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
+      console.log('this.state', this.state);
       return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Music Master"), /*#__PURE__*/_react.default.createElement("input", {
         onChange: this.updateArtistQuery,
         onKeyPress: this.handleKeyPress,
@@ -28523,7 +28521,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61070" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61970" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
