@@ -28323,6 +28323,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+var API_ADDRESS = 'https://spotify-api-wrapper.appspot.com';
+
 var App = /*#__PURE__*/function (_Component) {
   _inherits(App, _Component);
 
@@ -28340,7 +28342,8 @@ var App = /*#__PURE__*/function (_Component) {
     _this = _super.call.apply(_super, [this].concat(args));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      artistQuery: ''
+      artistQuery: '',
+      artist: null
     });
 
     _defineProperty(_assertThisInitialized(_this), "updateArtistQuery", function (event) {
@@ -28359,6 +28362,30 @@ var App = /*#__PURE__*/function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "searchArtist", function () {
       console.log('this.state', _this.state);
+      fetch("".concat(API_ADDRESS, "/artist/").concat(_this.state.artistQuery)).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        console.log('json', json);
+
+        if (json.artists.total > 0) {
+          var artist = json.artists.items[0];
+          console.log('artist', artist);
+
+          _this.setState({
+            artist: artist
+          });
+
+          fetch("".concat(API_ADDRESS, "/artist/").concat(artist.id, "/top-tracks")).then(function (response) {
+            return response.json();
+          }).then(function (json) {
+            return console.log('track json', json);
+          }).catch(function (error) {
+            return alert(error.message);
+          });
+        }
+      }).catch(function (error) {
+        return alert(error.message);
+      });
     });
 
     return _this;
@@ -28496,7 +28523,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62974" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61070" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
