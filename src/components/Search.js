@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class Search extends Component {
+    state = { artistQuery: '' };
     
     updateArtistQuery = event => {
         this.setState({ artistQuery: event.target.value});
@@ -10,6 +11,10 @@ class Search extends Component {
         if (event.key === 'Enter') {
             this.searchArtist();
         }
+    }
+
+    searchArtist = () => {
+        this.props.searchArtist(this.state.artistQuery);
     }
 
     render() {
@@ -25,3 +30,5 @@ class Search extends Component {
         )
     }
 }
+
+export default Search;

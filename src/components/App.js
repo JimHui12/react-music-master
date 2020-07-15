@@ -1,14 +1,15 @@
 import React, { Component} from 'react';
+import Search from './Search';
 import Artist from './Artist';
 import Tracks from './Tracks';
 
 const API_ADDRESS = 'https://spotify-api-wrapper.appspot.com';
 
 class App extends Component {  
-    state = { artistQuery: '', artist: null, tracks: [] };
+    state = { artist: null, tracks: [] };
 
-    searchArtist = () => {
-        fetch( `${API_ADDRESS}/artist/${this.state.artistQuery}`)
+    searchArtist = artistQuery => {
+        fetch( `${API_ADDRESS}/artist/${artistQuery}`)
             .then(response => response.json())
             .then(json => {              
                 if(json.artists.total > 0) {
@@ -25,11 +26,10 @@ class App extends Component {
     }
     
     render() {
-        console.log('this.state', this.state);
-
         return (
             <div>
                 <h2>Music Master</h2>
+                <Search searchArtist={this.searchArtist}/>
                 <Artist artist={this.state.artist} />
                 <Tracks tracks={this.state.tracks} />
             </div>
