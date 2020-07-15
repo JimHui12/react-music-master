@@ -7,16 +7,6 @@ const API_ADDRESS = 'https://spotify-api-wrapper.appspot.com';
 class App extends Component {  
     state = { artistQuery: '', artist: null, tracks: [] };
 
-    updateArtistQuery = event => {
-        this.setState({ artistQuery: event.target.value});
-    }
-
-    handleKeyPress = event => {
-        if (event.key === 'Enter') {
-            this.searchArtist();
-        }
-    }
-
     searchArtist = () => {
         fetch( `${API_ADDRESS}/artist/${this.state.artistQuery}`)
             .then(response => response.json())
